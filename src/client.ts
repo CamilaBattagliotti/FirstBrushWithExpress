@@ -1,19 +1,31 @@
-type method = "POST" | "GET" | "PUT" | "PATCH" | "DELETE"
+type method = "POST" | "GET" | "PUT" | "PATCH" | "DELETE";
 
-async function fetchData(url: string, method: method = "GET", data = {}) { // CON LA ASIGNACION LE DEFINO EL VALOR POR DEFECTO QUE TOMARÁ EL PARAMETRO CUANDO NO ME ENVIEN NADA AL INVOCAR LA FUNCIÓN
-    const response = await fetch(`http:localhost:8080/${url}`, {
-        method: method, // SE PUEDE SIMPLIFICAR DEJANDO SOLO METHOD Y COMO VALOR LE COLOCARÁ LA VARIABLE CON ESE MISMO NOMBRE
-        body: JSON.stringify(data)
-    })
+async function fetchData(params: {
+  url: string;
+  method?: method;
+  body?: object;
+}) {
+  // CON LA ASIGNACION LE DEFINO EL VALOR POR DEFECTO QUE TOMARÁ EL PARAMETRO CUANDO NO ME ENVIEN NADA AL INVOCAR LA FUNCIÓN
+  const response = await fetch(`http://localhost:8080/${params.url}`, {
+    method: params.method, // SE PUEDE SIMPLIFICAR DEJANDO SOLO METHOD Y COMO VALOR LE COLOCARÁ LA VARIABLE CON ESE MISMO NOMBRE
+    body: JSON.stringify(params.body),
+    headers: { "content-type": "application/json" },
+  });
 
-    console.log(response.status);
+  console.log(response.status);
 
-    return await response.json()
+  const data = await response.json();
+  console.log(data);
+
+  return data;
 }
 
 async function main() {
-    const data = await fetchData("students", "POST", { name: "Sofi", age: 22 })
-    console.log(data);
+  const data = await fetchData({
+    url: "api",
+    // body: { id: 1 },
+    method: "GET",
+  });
 }
 
-main()
+main();
