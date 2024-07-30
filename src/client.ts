@@ -9,7 +9,7 @@ async function fetchData(params: {
   const response = await fetch(`http://localhost:8080/${params.url}`, {
     method: params.method, // SE PUEDE SIMPLIFICAR DEJANDO SOLO METHOD Y COMO VALOR LE COLOCARÁ LA VARIABLE CON ESE MISMO NOMBRE
     body: JSON.stringify(params.body),
-    headers: { "content-type": "application/json" },
+    headers: { "content-type": "application/json" }, // => Le estamos indicando al servidor que le estamos mandando un json. Porque cuando uso el metodo json en el middleware: app.use(json()), el servidor revisa si la solicitud tiene como encabezado application/json.
   });
 
   console.log(response.status);
